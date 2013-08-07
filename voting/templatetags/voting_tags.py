@@ -5,7 +5,6 @@ from voting.models import Vote
 
 register = template.Library()
 
-# Tags
 
 class ScoreForObjectNode(template.Node):
     def __init__(self, object, context_var):
@@ -20,6 +19,7 @@ class ScoreForObjectNode(template.Node):
         context[self.context_var] = Vote.objects.get_score(object)
         return ''
 
+
 class ScoresForObjectsNode(template.Node):
     def __init__(self, objects, context_var):
         self.objects = objects
@@ -32,6 +32,7 @@ class ScoresForObjectsNode(template.Node):
             return ''
         context[self.context_var] = Vote.objects.get_scores_in_bulk(objects)
         return ''
+
 
 class VoteByUserNode(template.Node):
     def __init__(self, user, object, context_var):
@@ -48,6 +49,7 @@ class VoteByUserNode(template.Node):
         context[self.context_var] = Vote.objects.get_for_user(object, user)
         return ''
 
+
 class VotesByUserNode(template.Node):
     def __init__(self, user, objects, context_var):
         self.user = user
@@ -63,6 +65,7 @@ class VotesByUserNode(template.Node):
         context[self.context_var] = Vote.objects.get_for_user_in_bulk(objects, user)
         return ''
 
+
 class DictEntryForItemNode(template.Node):
     def __init__(self, item, dictionary, context_var):
         self.item = item
@@ -77,6 +80,7 @@ class DictEntryForItemNode(template.Node):
             return ''
         context[self.context_var] = dictionary.get(item.id, None)
         return ''
+
 
 def do_score_for_object(parser, token):
     """
@@ -98,6 +102,7 @@ def do_score_for_object(parser, token):
         raise template.TemplateSyntaxError("second argument to '%s' tag must be 'as'" % bits[0])
     return ScoreForObjectNode(bits[1], bits[3])
 
+
 def do_scores_for_objects(parser, token):
     """
     Retrieves the total scores for a list of objects and the number of
@@ -113,6 +118,7 @@ def do_scores_for_objects(parser, token):
     if bits[2] != 'as':
         raise template.TemplateSyntaxError("second argument to '%s' tag must be 'as'" % bits[0])
     return ScoresForObjectsNode(bits[1], bits[3])
+
 
 def do_vote_by_user(parser, token):
     """
@@ -133,6 +139,7 @@ def do_vote_by_user(parser, token):
         raise template.TemplateSyntaxError("fourth argument to '%s' tag must be 'as'" % bits[0])
     return VoteByUserNode(bits[1], bits[3], bits[5])
 
+
 def do_votes_by_user(parser, token):
     """
     Retrieves the votes cast by a user on a list of objects as a
@@ -151,6 +158,7 @@ def do_votes_by_user(parser, token):
     if bits[4] != 'as':
         raise template.TemplateSyntaxError("fourth argument to '%s' tag must be 'as'" % bits[0])
     return VotesByUserNode(bits[1], bits[3], bits[5])
+
 
 def do_dict_entry_for_item(parser, token):
     """
@@ -228,4 +236,31 @@ def vote_display(vote, arg=None):
         return up
     return down
 
-register.filter(vote_display)
+
+@register.filter
+def set_flag(score, arg=-3):
+    """
+    Gets vote total and returns a "toxic" flag if the object has
+    been downvoted into oblivion.
+    Threshold defaults to -3, but can be set when the tag is called.
+    Example usage::
+        {{ vote|set_flag }}
+        {{ vote|set_flag:"-5" }}
+    """
+    if score and score <= arg:
+        return 'toxic'
+    return ''
+
+
+@register.filter
+def clean_score(score, arg=None):
+    """
+    If the score is below 0, returns 0 so negative scores aren't public.
+    Example usage::
+        {{ score.score|clean_score" }}
+    """
+    if isinstance(score, dict):
+        score = score.get('score')
+    if not score or score < 0:
+        score = 0
+    return score

@@ -1,9 +1,11 @@
+from django.conf import settings
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User
 from django.db import models
 
 from voting.managers import VoteManager
+
+UserModel = getattr(settings, "AUTH_USER_MODEL", "auth.User")
 
 SCORES = (
     (u'+1', +1),
@@ -14,7 +16,7 @@ class Vote(models.Model):
     """
     A vote on an object by a User.
     """
-    user         = models.ForeignKey(User)
+    user         = models.ForeignKey(UserModel)
     content_type = models.ForeignKey(ContentType)
     object_id    = models.PositiveIntegerField()
     object       = generic.GenericForeignKey('content_type', 'object_id')
