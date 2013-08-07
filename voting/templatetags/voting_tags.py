@@ -187,7 +187,9 @@ register.tag('vote_by_user', do_vote_by_user)
 register.tag('votes_by_user', do_votes_by_user)
 register.tag('dict_entry_for_item', do_dict_entry_for_item)
 
+
 # Simple Tags
+
 
 def confirm_vote_message(object_description, vote_direction):
     """
@@ -206,7 +208,9 @@ def confirm_vote_message(object_description, vote_direction):
 
 register.simple_tag(confirm_vote_message)
 
+
 # Filters
+
 
 def vote_display(vote, arg=None):
     """
@@ -230,7 +234,7 @@ def vote_display(vote, arg=None):
         arg = 'Up,Down'
     bits = arg.split(',')
     if len(bits) != 2:
-        return vote.vote # Invalid arg
+        return vote.vote  # Invalid arg
     up, down = bits
     if vote.vote == 1:
         return up
