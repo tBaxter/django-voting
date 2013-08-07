@@ -153,21 +153,17 @@ XMLHttpRequest ``POST``.
 
 The following sample URLconf demonstrates using a generic view for
 voting on a model, allowing for regular voting and XMLHttpRequest
-voting at the same URL::
+voting at the same URL. Only one URL is required for all models, 
+by passing the model name when calling the URL::
 
     from django.conf.urls.defaults import *
-    from voting.views import vote_on_object
-    from shop.apps.products.models import Widget
 
-    widget_dict = {
-        'model': Widget,
-        'template_object_name': 'widget',
-        'allow_xmlhttprequest': True,
-    }
+    url(
+        name="generic_vote",
+        regex=r'^vote/(?P<model_name>[-\w]+)/(?P<object_id>\d+)/(?P<direction>up|down)vote/$',
+        view='voting.views.vote_on_object'
+    ),
 
-    urlpatterns = patterns('',
-        (r'^widgets/(?P<object_id>\d+)/(?P<direction>up|down|clear)vote/?$', vote_on_object, widget_dict),
-    )
 
 ``voting.views.vote_on_object``
 --------------------------------
