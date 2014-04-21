@@ -1,9 +1,9 @@
+import json
+
 from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.template import loader, RequestContext
-from django.utils import simplejson
 
 from models import Vote
 
@@ -55,7 +55,7 @@ def generic_vote_on_object(request, model_name, object_id, direction,
     Vote.objects.record_vote(obj, request.user, vote)
 
     if request.is_ajax():
-        return HttpResponse(simplejson.dumps({'success': True,
+        return HttpResponse(json.dumps({'success': True,
                                           'score': Vote.objects.get_score(obj)}))
 
     if extra_context is None:
@@ -94,5 +94,5 @@ def generic_vote_on_object(request, model_name, object_id, direction,
 
 
 def json_error_response(error_message, *args, **kwargs):
-    return HttpResponse(simplejson.dumps(dict(success=False,
+    return HttpResponse(json.dumps(dict(success=False,
                                               error_message=error_message)))

@@ -138,7 +138,7 @@ class VoteManager(models.Manager):
         # MySQL has issues with re-using the aggregate function in the
         # HAVING clause, so we alias the score and use this alias for
         # its benefit.
-        if settings.DATABASE_ENGINE == 'mysql':
+        if settings.DATABASES['default']['ENGINE'] == 'mysql':
             having_score = connection.ops.quote_name('score')
         else:
             having_score = 'SUM(vote)'
