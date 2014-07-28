@@ -251,7 +251,7 @@ def set_flag(score, arg=-3):
         {{ vote|set_flag }}
         {{ vote|set_flag:"-5" }}
     """
-    if score and score <= arg:
+    if score and score <= int(arg):
         return 'toxic'
     return ''
 
