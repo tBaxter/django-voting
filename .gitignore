@@ -1,10 +1,8 @@
 
-django_voting.egg-info/dependency_links.txt
-
-django_voting.egg-info/PKG-INFO
-
-django_voting.egg-info/SOURCES.txt
-
-django_voting.egg-info/top_level.txt
+django_voting.egg-info/*
 
 *.pyc
+
+dist/tango-voting-0.2.tar.gz
+
+tango_voting.egg-info/*

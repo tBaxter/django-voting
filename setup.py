@@ -1,27 +1,16 @@
 from distutils.core import setup
-from distutils.command.install import INSTALL_SCHEMES
-
-# Tell distutils to put the data_files in platform-specific installation
-# locations. See here for an explanation:
-# http://groups.google.com/group/comp.lang.python/browse_thread/thread/35ec7b2fed36eaec/2105ee4d9e8042cb
-for scheme in INSTALL_SCHEMES.values():
-    scheme['data'] = scheme['purelib']
-
-# Dynamically calculate the version based on tagging.VERSION.
-version_tuple = __import__('voting').VERSION
-if version_tuple[2] is not None:
-    version = "%d.%d_%s" % version_tuple
-else:
-    version = "%d.%d" % version_tuple[:2]
+from setuptools import find_packages
 
 setup(
-    name = 'django-voting',
-    version = version,
-    description = 'Generic voting application for Django',
-    author = 'Jonathan Buchanan',
-    author_email = 'jonathan.buchanan@gmail.com',
-    url = 'http://code.google.com/p/django-voting/',
-    packages = ['voting', 'voting.templatetags', 'voting.tests'],
+    name = 'tango-voting',
+    version = '0.2',
+    author = 'Jonathan Buchanan/Tim Baxter',
+    author_email = 'mail.baxter@gmail.com',
+    url = 'https://github.com/tBaxter/django-voting',
+    license='LICENSE',
+    description = 'Generic voting application for Django, based on django-voting by Jonathan Buchanan',
+    packages = find_packages(),
+    include_package_data=True,
     classifiers = ['Development Status :: 4 - Beta',
                    'Environment :: Web Environment',
                    'Framework :: Django',
