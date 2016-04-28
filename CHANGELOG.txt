@@ -2,5 +2,8 @@
 Django Voting Changelog
 =======================
 
+### 0.3.1
+Call settings.AUTH_USER_MODEL correctly
+
 ### 0.3.0
 Updated for Django 1.8+

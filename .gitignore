@@ -6,3 +6,5 @@ django_voting.egg-info/*
 dist/tango-voting-0.2.tar.gz
 
 tango_voting.egg-info/*
+
+*.gz

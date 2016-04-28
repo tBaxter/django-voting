@@ -5,8 +5,6 @@ from django.db import models
 
 from voting.managers import VoteManager
 
-UserModel = getattr(settings, "AUTH_USER_MODEL", "auth.User")
-
 SCORES = (
     (u'+1', +1),
     (u'-1', -1),
@@ -17,7 +15,7 @@ class Vote(models.Model):
     """
     A vote on an object by a User.
     """
-    user = models.ForeignKey(UserModel)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     object = GenericForeignKey('content_type', 'object_id')
@@ -26,6 +24,7 @@ class Vote(models.Model):
     objects = VoteManager()
 
     class Meta:
+        app_label = 'voting'
         db_table = 'votes'
         # One vote per user per object
         unique_together = (('user', 'content_type', 'object_id'),)
