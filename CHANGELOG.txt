@@ -2,6 +2,9 @@
 Django Voting Changelog
 =======================
 
+### 0.3.2
+Update ForeignKeys to use on_delete for 2.0 compatibility.
+
 ### 0.3.1
 Call settings.AUTH_USER_MODEL correctly
 
