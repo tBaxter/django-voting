@@ -2,6 +2,9 @@
 Django Voting Changelog
 =======================
 
+### 0.4.1
+Corrected is_authenticated check
+
 ### 0.4.0
 Updated for Django 2.0 compatibility.
 

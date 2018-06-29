@@ -3,7 +3,7 @@ from setuptools import find_packages
 
 setup(
     name='tango-voting',
-    version='0.4.0',
+    version='0.4.1',
     author='Jonathan Buchanan/Tim Baxter',
     author_email='mail.baxter@gmail.com',
     url='https://github.com/tBaxter/django-voting',
